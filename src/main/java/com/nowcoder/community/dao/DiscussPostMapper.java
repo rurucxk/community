@@ -6,6 +6,9 @@ import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
+/**
+ * 帖子
+ */
 @Mapper
 public interface DiscussPostMapper {
 
@@ -15,4 +18,7 @@ public interface DiscussPostMapper {
     //如果只有一个参数并且在if中使用，必须加别名
     int selectDiscussPostRows(@Param("userId") int userId);
 
+    int insertDiscussPost(DiscussPost discussPost);
+
+    DiscussPost selectDiscussPsotById(int id);
 }

@@ -93,4 +93,11 @@ public class MapperTests {
         System.out.println(loginTicketMapper.selectByTicket("abc"));
     }
 
+    @Test
+    public void testSelectDiscussPost(){
+        DiscussPost post = discussPostMapper.selectDiscussPsotById(154);
+//        System.out.println(post);
+        User user = userMapper.selectById(post.getUserId());
+        System.out.println(user);
+    }
 }

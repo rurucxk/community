@@ -1,5 +1,6 @@
 package com.nowcoder.community.dao;
 
+import com.nowcoder.community.entity.DiscussPost;
 import com.nowcoder.community.entity.LoginTicket;
 import org.apache.ibatis.annotations.*;
 
@@ -19,4 +20,6 @@ public interface LoginTicketMapper {
 
 //    @Update("update login_ticket set status = #{status} where ticket = #{ticket}")
     int updateStatus(String ticket, int status);
+
+
 }

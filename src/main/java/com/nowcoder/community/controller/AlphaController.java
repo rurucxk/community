@@ -186,4 +186,13 @@ public class AlphaController {
         System.out.println(session.getAttribute("age"));
         return "get session";
     }
+
+    //ajax示例
+    @PostMapping("/ajax")
+    @ResponseBody
+    public String testAjax(String name, String age){
+        System.out.println(name);
+        System.out.println(age);
+        return CommunityUtil.getJSONString(0,"操作成功");
+    }
 }
