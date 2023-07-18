@@ -30,5 +30,10 @@
         and entity_type = #{entityType}
     </select>
 
+    <insert id="insertComment" parameterType="Comment">
+        insert into comment (<include refid="insertFieldds"></include>)
+        value (#{userId}, #{entityType}, #{entityId}, #{targetId}, #{content}, #{status}, #{createTime})
+    </insert>
+
 
 </mapper>
