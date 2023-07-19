@@ -14,6 +14,7 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.text.SimpleDateFormat;
+import java.util.Arrays;
 import java.util.Date;
 
 @RunWith(SpringRunner.class)
@@ -72,4 +73,8 @@ public class CommunityApplicationTests implements ApplicationContextAware {
 		System.out.println(simpleDateFormat);
 	}
 
+	@Test
+	public void	testId(){
+		System.out.println(Arrays.asList(0).getClass().getName());
+	}
 }
