@@ -35,7 +35,6 @@ public class MessageController {
     @LoginRequired
     public String getLetterList(Model model, Page page){
 
-        int i = 1/0;
         User user = hostHolder.getUser();
         /**
          * 设置分页信息

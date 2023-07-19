@@ -45,7 +45,7 @@
         where `status` != 2
         and from_id != 1
         and conversation_id = #{conversationId}
-        order by id desc
+        order by create_time
         limit #{offset}, #{limit}
     </select>
 
