@@ -16,7 +16,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.Date;
 
-
+/**
+ * 登录凭证拦截器设置
+ */
 @Controller
 public class LoginTicketInterceptor implements HandlerInterceptor {
 
