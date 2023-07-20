@@ -62,4 +62,23 @@ public class CommentService implements CommunityConstant {
 
         return rows;
     }
+    /**
+     * 查询用户的回复数量
+     */
+    public int findCountCommentByUserId(int userId){
+        return commentMapper.selectCountCommentByUserId(userId);
+    }
+
+    /**
+     * 查询用户回复过的帖子的回复
+     */
+    public List<Comment> findUserPostReply(int userId, int offset, int limit){
+        return commentMapper.selectUserPostReply(userId,offset,limit);
+    }
+    /**
+     * 查询用户回复过的帖子的回复的数量
+     */
+    public int findUserPostReplyCount(int userId){
+        return commentMapper.selectUserPostReplyCount(userId);
+    }
 }

@@ -1,13 +1,15 @@
 package com.nowcoder.community.controller;
 
 import com.nowcoder.community.annotation.LoginRequired;
+import com.nowcoder.community.entity.Comment;
+import com.nowcoder.community.entity.DiscussPost;
+import com.nowcoder.community.entity.Page;
 import com.nowcoder.community.entity.User;
-import com.nowcoder.community.service.FollowService;
-import com.nowcoder.community.service.LikeService;
-import com.nowcoder.community.service.UserService;
+import com.nowcoder.community.service.*;
 import com.nowcoder.community.util.CommunityConstant;
 import com.nowcoder.community.util.CommunityUtil;
 import com.nowcoder.community.util.HostHolder;
+import com.sun.org.apache.xpath.internal.operations.Mod;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -22,6 +24,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.multipart.MultipartFile;
 import javax.servlet.http.HttpServletResponse;
 import java.io.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @Controller
@@ -50,6 +55,12 @@ public class UserController implements CommunityConstant {
 
     @Autowired
     private FollowService followService;
+
+    @Autowired
+    private DiscussPostService discussPostService;
+
+    @Autowired
+    private CommentService commentService;
 
     @LoginRequired
     @GetMapping("/setting")
@@ -188,5 +199,91 @@ public class UserController implements CommunityConstant {
         model.addAttribute("hasFollowee",hasFollowee);
 
         return "/site/profile";
+    }
+    /**
+     * 查询用户发布的帖子
+     */
+    @GetMapping("/myPosts/{userId}")
+    public String getMyPosts(@PathVariable("userId") int userId, Page page, Model model){
+        /*
+            查询当前需要的用户
+         */
+        User user = userService.findUserById(userId);
+        if(user == null){
+            throw new IllegalArgumentException("用户不存在");
+        }
+        model.addAttribute("user", user);
+        /*
+            帖子数量
+         */
+        int postRows = discussPostService.findDiscussPostRows(userId);
+        model.addAttribute("postRows", postRows);
+        /*
+            分页设置
+         */
+        page.setPath("/user/myPosts/" + userId);
+        page.setLimit(5);
+        page.setRows(postRows);
+        /*
+            用户发布的帖子
+         */
+        List<Map<String, Object>> postList = new ArrayList<>();
+        List<DiscussPost> posts = discussPostService.findDiscussPosts(userId, page.getOffset(), page.getLimit());
+        if(posts != null){
+            for (DiscussPost post : posts) {
+                Map<String, Object> map = new HashMap<>();
+                map.put("post",post);
+                /*
+                    帖子的赞
+                 */
+                map.put("likeCount", likeService.findEntityLikeCount(ENTITY_TYPE_POST,post.getId()));
+                postList.add(map);
+            }
+        }
+        model.addAttribute("posts", postList);
+        return "/site/my-post";
+    }
+    
+    @GetMapping("/myReplies/{userId}")
+    public String getMyReplies(@PathVariable("userId") int userId, Page page, Model model) {
+        /*
+            查询当前需要的用户
+         */
+        User user = userService.findUserById(userId);
+        if (user == null) {
+            throw new IllegalArgumentException("用户不存在");
+        }
+        model.addAttribute("user", user);
+        /*
+            回复帖子数量
+         */
+        int replyCount = commentService.findUserPostReplyCount(userId);
+        model.addAttribute("replyCount",replyCount);
+        /*
+            分页设置
+         */
+        page.setPath("/user/myPosts/" + userId);
+        page.setLimit(5);
+        page.setRows(replyCount);
+
+        /*
+            用户对帖子回复
+         */
+        List<Map<String, Object>> replyList = new ArrayList<>();
+        List<Comment> postReplies = commentService.findUserPostReply(userId, page.getOffset(), page.getLimit());
+
+        if(postReplies != null){
+            for (Comment reply : postReplies) {
+                Map<String, Object> map = new HashMap<>();
+                map.put("reply", reply);
+                map.put("post", discussPostService.findDiscussPost(reply.getEntityId()));
+                replyList.add(map);
+            }
+
+        }
+        model.addAttribute("replies", replyList);
+
+
+        return "/site/my-reply";
     }
 }

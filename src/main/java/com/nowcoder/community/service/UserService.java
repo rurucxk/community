@@ -227,7 +227,7 @@ public class UserService implements CommunityConstant {
         return map;
     }
 
-    //更行用户密码
+    //更改用户密码
     public Map<String, Object> updatePassword(User user, String oldPassword,String newPassword, String confirmPassword){
         Map<String, Object> map = new HashMap<>();
 

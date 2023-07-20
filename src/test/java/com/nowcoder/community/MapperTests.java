@@ -101,9 +101,9 @@ public class MapperTests {
     @Test
     public void testSelectDiscussPost(){
         DiscussPost post = discussPostMapper.selectDiscussPsotById(154);
-//        System.out.println(post);
-        User user = userMapper.selectById(post.getUserId());
-        System.out.println(user);
+        System.out.println(post);
+//        User user = userMapper.selectById(post.getUserId());
+//        System.out.println(user);
     }
 
     @Test
