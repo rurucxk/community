@@ -86,9 +86,9 @@ public class MapperTests {
 
     @Test
     public void testInsertLoginTicket(){
-        LoginTicket loginTicket = new LoginTicket(102,0,
-                "abcd",new Date(System.currentTimeMillis() + 1000 * 60 * 10));
-        loginTicketMapper.insertLoginTicket(loginTicket);
+//        LoginTicket loginTicket = new LoginTicket(102,0,
+//                "abcd",new Date(System.currentTimeMillis() + 1000 * 60 * 10));
+//        loginTicketMapper.insertLoginTicket(loginTicket);
     }
     @Test
     public void testSelectLoginTicket(){

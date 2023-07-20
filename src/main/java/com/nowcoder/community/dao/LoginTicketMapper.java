@@ -4,6 +4,8 @@ import com.nowcoder.community.entity.DiscussPost;
 import com.nowcoder.community.entity.LoginTicket;
 import org.apache.ibatis.annotations.*;
 
+/*不推荐使用，已经使用redis存储登录凭证*/
+@Deprecated
 @Mapper
 public interface LoginTicketMapper {
 

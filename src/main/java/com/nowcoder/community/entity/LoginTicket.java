@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 import java.util.Date;
 
 @Data
-@NoArgsConstructor
+/*@NoArgsConstructor*/
 public class LoginTicket {
 
     private int id;
@@ -16,10 +16,10 @@ public class LoginTicket {
     private String ticket;
     private Date expired;
 
-    public LoginTicket(int userId, int status, String ticket, Date expired) {
+/*    public LoginTicket(int userId, int status, String ticket, Date expired) {
         this.userId = userId;
         this.status = status;
         this.ticket = ticket;
         this.expired = expired;
-    }
+    }*/
 }
