@@ -42,6 +42,13 @@ public class ServiceLogAspect {
             通过RequestContextHolder来获取request对象，从而获取用户
          */
         ServletRequestAttributes attributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
+        /**
+         * 在非Controller层的方法中调用了Service层的方法（EventConsumer），
+         * 不是用户通过请求访问的，这里得不到该对象，下面去调方法就会报空指针异常,需要加一个判空
+         */
+        if(attributes == null){
+            return;
+        }
         HttpServletRequest request = attributes.getRequest();
         String ip = request.getRemoteHost();
         String now = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date());

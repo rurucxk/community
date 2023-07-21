@@ -81,4 +81,11 @@ public class CommentService implements CommunityConstant {
     public int findUserPostReplyCount(int userId){
         return commentMapper.selectUserPostReplyCount(userId);
     }
+
+    /**
+     * 查询用户的回复
+     */
+    public Comment findCommentById(int id){
+        return commentMapper.selectCommentById(id);
+    }
 }

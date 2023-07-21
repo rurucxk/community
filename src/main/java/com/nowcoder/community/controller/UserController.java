@@ -9,7 +9,6 @@ import com.nowcoder.community.service.*;
 import com.nowcoder.community.util.CommunityConstant;
 import com.nowcoder.community.util.CommunityUtil;
 import com.nowcoder.community.util.HostHolder;
-import com.sun.org.apache.xpath.internal.operations.Mod;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -276,7 +275,7 @@ public class UserController implements CommunityConstant {
             for (Comment reply : postReplies) {
                 Map<String, Object> map = new HashMap<>();
                 map.put("reply", reply);
-                map.put("post", discussPostService.findDiscussPost(reply.getEntityId()));
+                map.put("post", discussPostService.findDiscussPostById(reply.getEntityId()));
                 replyList.add(map);
             }
 

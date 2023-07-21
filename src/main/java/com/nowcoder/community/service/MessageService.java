@@ -59,4 +59,34 @@ public class MessageService {
     public int deleteMessage(int id){
         return messageMapper.updateStatus(Arrays.asList(id),2);
     }
+
+    /**
+     * 查询最新的通知
+     */
+    public Message findLatestNotice(int userId, String topic){
+        return messageMapper.selectLatestNotice(userId,topic);
+    }
+
+    /**
+     * 查询主题所包含的通知数量
+     */
+    public int findNoticeCount(int userId, String topic){
+        return messageMapper.selectNoticeCount(userId,topic);
+    }
+
+    /**
+     * 查询主题未读的通知数量(topic为空，则查询所有未读的通知)
+     */
+    public int findNoticeUnreadCount(int userId, String topic){
+        return messageMapper.selectNoticeUnreadCount(userId,topic);
+    }
+
+    /**
+     * 查询主题所包含的所有通知
+     */
+    public List<Message> findNotices(int userId, String topic, int offset, int limit){
+        return messageMapper.selectNotices(userId,topic,offset,limit);
+    }
+
+
 }

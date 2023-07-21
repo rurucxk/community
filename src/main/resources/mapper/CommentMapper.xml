@@ -62,5 +62,11 @@
         order by create_time desc
     </select>
 
+    <select id="selectCommentById" resultType="comment">
+        select <include refid="selectFields"></include>
+        from comment
+        where id = #{id}
+    </select>
+
 
 </mapper>

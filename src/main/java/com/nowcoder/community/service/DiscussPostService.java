@@ -48,7 +48,7 @@ public class DiscussPostService {
     }
 
     //查询帖子
-    public DiscussPost findDiscussPost(int id){
+    public DiscussPost findDiscussPostById(int id){
         return discussPostMapper.selectDiscussPsotById(id);
     }
 

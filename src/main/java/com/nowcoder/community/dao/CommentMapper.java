@@ -24,13 +24,16 @@ public interface CommentMapper {
     int selectCountCommentByUserId(int userId);
 
     /*
-        查询用户回复的帖子
+        查询用户回复的帖子的所有评论
      */
     List<Comment> selectUserPostReply(int userId, int offset, int limit);
 
     /*
-        查询用户回复的帖子的数量
+        查询用户回复的帖子的评论数量
      */
     int selectUserPostReplyCount(int userId);
+
+    /*查询用户回复帖子的评论*/
+    Comment selectCommentById(int id);
 
 }

@@ -1,6 +1,5 @@
 package com.nowcoder.community.controller;
 
-import com.nowcoder.community.annotation.LoginRequired;
 import com.nowcoder.community.entity.Comment;
 import com.nowcoder.community.entity.DiscussPost;
 import com.nowcoder.community.entity.Page;
@@ -61,7 +60,7 @@ public class DiscussPostContreller implements CommunityConstant {
     @GetMapping("/detail/{discussPostId}")
     public String getDiscussPost(@PathVariable("discussPostId") int id, Model model, Page page){
         //查询帖子
-        DiscussPost post = discussPostService.findDiscussPost(id);
+        DiscussPost post = discussPostService.findDiscussPostById(id);
         model.addAttribute("post", post);
         //帖子作者
         User user = userService.findUserById(post.getUserId());

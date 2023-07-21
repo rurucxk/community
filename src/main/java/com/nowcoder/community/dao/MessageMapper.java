@@ -45,4 +45,27 @@ public interface MessageMapper {
      * 更改信息状态
      */
     int updateStatus(List<Integer> ids, int status);
+
+    /**
+     * 查询某个主题下的最新的通知
+     */
+    Message selectLatestNotice(int userId, String topic);
+
+    /**
+     * 查询某个主题所包含的通知数量
+     */
+    int selectNoticeCount(int userId, String topic);
+
+    /**
+     * 查询某个主题未读的通知数量(topic为空，则查询所有未读的通知)
+     */
+    int selectNoticeUnreadCount(int userId, String topic);
+
+    /**
+     * 查询某个主题所包含的所有通知
+     */
+    List<Message> selectNotices(int userId, String topic, int offset, int limit);
+
+
+
 }

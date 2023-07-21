@@ -30,7 +30,7 @@ public class DiscussTest {
 
     @Test
     public void testDiscussPost(){
-        DiscussPost post = discussPostService.findDiscussPost(217);
+        DiscussPost post = discussPostService.findDiscussPostById(217);
         System.out.println(post);
     }
 }
