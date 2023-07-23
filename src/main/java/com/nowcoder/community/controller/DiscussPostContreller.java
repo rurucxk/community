@@ -1,9 +1,7 @@
 package com.nowcoder.community.controller;
 
-import com.nowcoder.community.entity.Comment;
-import com.nowcoder.community.entity.DiscussPost;
-import com.nowcoder.community.entity.Page;
-import com.nowcoder.community.entity.User;
+import com.nowcoder.community.entity.*;
+import com.nowcoder.community.event.EventProducer;
 import com.nowcoder.community.service.CommentService;
 import com.nowcoder.community.service.DiscussPostService;
 import com.nowcoder.community.service.LikeService;
@@ -37,6 +35,9 @@ public class DiscussPostContreller implements CommunityConstant {
     @Autowired
     private LikeService likeService;
 
+    @Autowired
+    private EventProducer eventProducer;
+
     @PostMapping("/add")
     @ResponseBody
 //    @LoginRequired
@@ -51,6 +52,16 @@ public class DiscussPostContreller implements CommunityConstant {
         post.setUserId(user.getId());
         post.setCreateTime(new Date());
         discussPostService.addDiscussPost(post);
+
+        /*触发发帖事件，将帖子通过kafka异步的发送到elasticsearch服务器上*/
+        Event event = new Event()
+                .setTopic(TOPIC_PUBLISH)
+                .setUserId(user.getId())
+                .setEntityId(post.getId())
+                .setEntityType(ENTITY_TYPE_POST);
+        /*kafka的消息生产者生产event*/
+        eventProducer.fireEvent(event);
+
 
         //报错的情况会统一处理
         return CommunityUtil.getJSONString(0,"发送成功");

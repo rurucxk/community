@@ -62,6 +62,19 @@ public class CommentController implements CommunityConstant {
         }
         eventProducer.fireEvent(event);
 
+        if(comment.getEntityType() == ENTITY_TYPE_POST){
+            /*触发发帖事件，发布帖子评论会更新帖子的内容，对评论的回复不会
+                将帖子通过kafka异步的发送到elasticsearch服务器上*/
+            event = new Event()
+                    .setTopic(TOPIC_PUBLISH)
+                    .setUserId(comment.getUserId())
+                    .setEntityId(discussPostId)
+                    .setEntityType(ENTITY_TYPE_POST);
+            /*kafka的消息生产者生产event*/
+            eventProducer.fireEvent(event);
+        }
+
+
         return "redirect:/discuss/detail/" + discussPostId;
     }
 
