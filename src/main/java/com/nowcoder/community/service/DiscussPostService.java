@@ -57,5 +57,15 @@ public class DiscussPostService {
         return discussPostMapper.updateCommentCount(id, commentCount);
     }
 
+    /*置顶和取消置顶0-普通; 1-置顶;*/
+    public int updateType(int id, int type){
+        return discussPostMapper.updateType(id, type);
+    }
+
+    /*加精和删除0-正常; 1-精华; 2-删除;*/
+    public int updateStatus(int id, int status){
+        return discussPostMapper.updateStatus(id,status);
+    }
+
 
 }

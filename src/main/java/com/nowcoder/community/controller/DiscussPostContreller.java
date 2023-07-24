@@ -85,6 +85,14 @@ public class DiscussPostContreller implements CommunityConstant {
                 likeService.findEntityLikeStatus(hostHolder.getUser().getId(), ENTITY_TYPE_POST, id);
         model.addAttribute("likeStatus",likeStatus);
 
+        /*直接通过post判断，不需要传给前端*/
+//        /*置顶状态*/
+//        model.addAttribute("topType", post.getType());
+//
+//        /*加精状态*/
+//        model.addAttribute("wonderfulStatus",post.getStatus());
+
+
         //评论的分页信息
         page.setLimit(5);
         page.setPath("/discuss/detail/" + id);
@@ -139,6 +147,8 @@ public class DiscussPostContreller implements CommunityConstant {
                                 likeService.findEntityLikeStatus(hostHolder.getUser().getId(), ENTITY_TYPE_COMMENT, reply.getId());
                         replyVo.put("likeStatus",likeStatus);
 
+
+
                         replyVoList.add(replyVo);
                     }
                 }
@@ -154,6 +164,57 @@ public class DiscussPostContreller implements CommunityConstant {
         model.addAttribute("comments", commentVoList);
 //        return "/index";
         return "/site/discuss-detail";
+    }
+
+    /*置顶 1-置顶， 0-普通*/
+    @PostMapping("/top")
+    @ResponseBody
+    public String setTop(int id, int type){
+        discussPostService.updateType(id,type);
+        /*触发帖子更新事件，通过kafka将最新的帖子发送到Elasticsearch中*/
+        Event event = new Event()
+                .setTopic(TOPIC_PUBLISH)
+                .setUserId(hostHolder.getUser().getId())
+                .setEntityId(id)
+                .setEntityType(ENTITY_TYPE_POST);
+
+        eventProducer.fireEvent(event);
+
+        return CommunityUtil.getJSONString(0);
+    }
+
+
+    /*加精 1-加精 0-普通*/
+    @PostMapping("/wonderful")
+    @ResponseBody
+    public String setWonderful(int id,int status){
+        discussPostService.updateStatus(id,status);
+        /*触发帖子更新事件，通过kafka将最新的帖子发送到Elasticsearch中*/
+        Event event = new Event()
+                .setTopic(TOPIC_PUBLISH)
+                .setUserId(hostHolder.getUser().getId())
+                .setEntityId(id)
+                .setEntityType(ENTITY_TYPE_POST);
+        eventProducer.fireEvent(event);
+        return CommunityUtil.getJSONString(0);
+    }
+
+    /*删除*/
+    @PostMapping("/delete")
+    @ResponseBody
+    public String setDelete(int id){
+        discussPostService.updateStatus(id,2);
+
+        /*触发帖子删除事件，在Elasticsearch中删除帖子*/
+        Event event = new Event()
+                .setTopic(TOPIC_DELETE)
+                .setUserId(hostHolder.getUser().getId())
+                .setEntityId(id)
+                .setEntityType(ENTITY_TYPE_POST);
+
+        eventProducer.fireEvent(event);
+
+        return CommunityUtil.getJSONString(0);
     }
 }
 

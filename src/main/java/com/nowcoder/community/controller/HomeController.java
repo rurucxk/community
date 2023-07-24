@@ -43,6 +43,10 @@ public class HomeController implements CommunityConstant {
 
         List<DiscussPost> list = discussPostService.findDiscussPosts(0, page.getOffset(), page.getLimit());
         List<Map<String,Object>> discussPosts = new ArrayList<>();
+        Object loginUSer = model.getAttribute("loginUSer");
+        if(loginUSer != null){
+            model.addAttribute("loginUser", loginUSer);
+        }
         if(list != null){
             for (DiscussPost post : list) {
                 Map<String,Object> map = new HashMap<>();
@@ -58,13 +62,26 @@ public class HomeController implements CommunityConstant {
                 discussPosts.add(map);
             }
         }
+
+
         model.addAttribute("discussPosts", discussPosts);
         return "/index";
     }
 
+    /**
+     * 报错的页面
+     */
     @GetMapping("/error")
     public String getErrorPage(){
         return "/error/500";
+    }
+
+    /**
+     * 拒绝访问时的页面，就是无权访问时跳转的页面
+     */
+    @GetMapping("/denied")
+    public String getDeniedPage(){
+        return "/error/404";
     }
 
 }

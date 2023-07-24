@@ -40,7 +40,7 @@ public class ExceptionAdvice {
         /*
             XMLHttpRequest:异步请求
          */
-        if(xRequestedWith.equals("XMLHttpRequest")){
+        if("XMLHttpRequest".equals(xRequestedWith)){
 //            response.setContentType("application/json");
             /*
                 返回的是普通字符串，需要手动将其转为json
@@ -49,7 +49,7 @@ public class ExceptionAdvice {
             PrintWriter writer = response.getWriter();
             writer.write(CommunityUtil.getJSONString(1,"服务器异常"));
         }else {
-            response.sendRedirect(request.getContextPath() + "error");
+            response.sendRedirect(request.getContextPath() + "/error");
         }
 
     }

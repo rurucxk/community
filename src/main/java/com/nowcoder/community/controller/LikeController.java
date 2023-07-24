@@ -54,10 +54,6 @@ public class LikeController implements CommunityConstant {
         Map<String, Object> map = new HashMap<>();
         map.put("likeCount", likeCount);
         map.put("likeStatus",likeStatus);
-
-        /*
-            成功为0
-         */
         /**
          * kafka
          */
@@ -73,8 +69,6 @@ public class LikeController implements CommunityConstant {
                     .setData("postId", postId);
             eventProducer.fireEvent(event);
         }
-
-
         return CommunityUtil.getJSONString(0,null,map);
 
     }

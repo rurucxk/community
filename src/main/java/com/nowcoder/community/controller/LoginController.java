@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -167,7 +168,6 @@ public class LoginController implements CommunityConstant {
         }else {
             model.addAttribute("usernameMsg",map.get("usernameMsg"));
             model.addAttribute("passwordMsg",map.get("passwordMsg"));
-
             return "/site/login";
         }
 
@@ -176,6 +176,8 @@ public class LoginController implements CommunityConstant {
     @GetMapping("/logout")
     public String logout(@CookieValue("ticket") String ticket){
         userService.logout(ticket);
+        /*将SecurityContextHolder的context清除,就是将权限去掉*/
+        SecurityContextHolder.clearContext();
         return "redirect:/login";
     }
 

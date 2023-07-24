@@ -38,8 +38,6 @@ public class CommentService implements CommunityConstant {
 
     /**
      * 增加评论
-     * @param comment
-     * @return
      */
     @SuppressWarnings("AlibabaTransactionMustHaveRollback")
     @Transactional(isolation = Isolation.READ_COMMITTED, propagation = Propagation.REQUIRED)

@@ -1,8 +1,19 @@
 package com.nowcoder.community.entity;
 
-import java.util.Date;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.nowcoder.community.util.CommunityConstant;
+import lombok.Data;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
-public class User {
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Date;
+import java.util.List;
+
+@Data
+@JsonIgnoreProperties({"enabled","accountNonExpired", "accountNonLocked", "credentialsNonExpired", "authorities"})
+public class User implements UserDetails, CommunityConstant {
 
     private int id;
     private String username;
@@ -15,100 +26,48 @@ public class User {
     private String headerUrl;
     private Date createTime;
 
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public String getUsername() {
-        return username;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    public String getSalt() {
-        return salt;
-    }
-
-    public void setSalt(String salt) {
-        this.salt = salt;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public int getType() {
-        return type;
-    }
-
-    public void setType(int type) {
-        this.type = type;
-    }
-
-    public int getStatus() {
-        return status;
-    }
-
-    public void setStatus(int status) {
-        this.status = status;
-    }
-
-    public String getActivationCode() {
-        return activationCode;
-    }
-
-    public void setActivationCode(String activationCode) {
-        this.activationCode = activationCode;
-    }
-
-    public String getHeaderUrl() {
-        return headerUrl;
-    }
-
-    public void setHeaderUrl(String headerUrl) {
-        this.headerUrl = headerUrl;
-    }
-
-    public Date getCreateTime() {
-        return createTime;
-    }
-
-    public void setCreateTime(Date createTime) {
-        this.createTime = createTime;
-    }
-
+    /*true:账号未过期*/
     @Override
-    public String toString() {
-        return "User{" +
-                "id=" + id +
-                ", username='" + username + '\'' +
-                ", password='" + password + '\'' +
-                ", salt='" + salt + '\'' +
-                ", email='" + email + '\'' +
-                ", type=" + type +
-                ", status=" + status +
-                ", activationCode='" + activationCode + '\'' +
-                ", headerUrl='" + headerUrl + '\'' +
-                ", createTime=" + createTime +
-                '}';
+    public boolean isAccountNonExpired() {
+        return true;
     }
 
+    /*true:账号未锁定*/
+    @Override
+    public boolean isAccountNonLocked() {
+        return true;
+    }
+
+    /*true:凭证未过期*/
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return true;
+    }
+
+    /*true:账号可用*/
+    @Override
+    public boolean isEnabled() {
+        return true;
+    }
+
+
+    /*返回用户具有的权限*/
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        List<GrantedAuthority> list = new ArrayList<>();
+        list.add(new GrantedAuthority() {
+            @Override
+            public String getAuthority() {
+                switch (type){
+                    case 1:
+                        return AUTHORITY_ADMIN;
+                    case 2:
+                        return AUTHORITY_MODERATOR;
+                    default:
+                        return AUTHORITY_USER;
+                }
+            }
+        });
+        return list;
+    }
 }

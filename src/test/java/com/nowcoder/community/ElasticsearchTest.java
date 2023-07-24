@@ -5,23 +5,20 @@ import com.nowcoder.community.dao.elasticsearch.DiscussPostRepository;
 import com.nowcoder.community.entity.DiscussPost;
 import com.nowcoder.community.service.ElasticsearchService;
 import org.elasticsearch.index.query.QueryBuilders;
-import org.elasticsearch.search.dfs.AggregatedDfs;
 import org.elasticsearch.search.fetch.subphase.highlight.HighlightBuilder;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.elasticsearch.core.*;
 import org.springframework.data.elasticsearch.core.query.NativeSearchQuery;
 import org.springframework.data.elasticsearch.core.query.NativeSearchQueryBuilder;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
+
 
 @SpringBootTest
 public class ElasticsearchTest {
@@ -35,12 +32,14 @@ public class ElasticsearchTest {
     @Autowired
     private ElasticsearchService elasticsearchService;
 
+
 //    @Autowired
 //    private ElasticsearchOperations operations;
 
     /*遇到问题，ElasticsearchTemplate无法自动注入，
     原因：Spring boot在集成7.X版本的时候已经弃用了ElasticsearchTemplate，
-    解决方法：改为ElasticsearchRestTemplate。*/
+    解决方法：改为ElasticsearchRestTemplate。
+    ElasticsearchRestTemplate为ElasticsearchOperations的实现子类*/
     @Autowired
     private ElasticsearchRestTemplate template;
 

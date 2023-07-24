@@ -261,7 +261,7 @@ public class UserController implements CommunityConstant {
         /*
             分页设置
          */
-        page.setPath("/user/myPosts/" + userId);
+        page.setPath("/user/myReplies/" + userId);
         page.setLimit(5);
         page.setRows(replyCount);
 
