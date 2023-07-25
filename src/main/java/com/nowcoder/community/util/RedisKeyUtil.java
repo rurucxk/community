@@ -5,38 +5,35 @@ package com.nowcoder.community.util;
  */
 public class RedisKeyUtil {
 
-    /*
-        key的拼接符，redis的拼接为xx:xx
-     */
+    /*key的拼接符，redis的拼接为xx:xx*/
     private static final String SPLIT = ":";
 
-    /*
-        帖子的赞前缀
-     */
+    /*帖子的赞前缀*/
     private static final String PREFIX_ENTITY_LIKE = "like:entity";
 
-    /*
-        用户的赞前缀
-     */
+    /*用户的赞前缀*/
     private static final String PREFIX_USER_LIKE = "like:user";
-    /*
-        关注的目标
-     */
+
+    /*关注的目标*/
     private static final String PREFIX_FOLLOWEE = "followee";
-    /*
-        粉丝
-     */
+
+    /*粉丝*/
     private static final String PREFIX_FOLLOWER = "follower";
 
-    /*
-        登录验证码
-     */
+    /*登录验证码*/
     private static final String PREFIX_KAPTCHA = "kaptcha";
 
     /*登录凭证*/
     private static final String PREFIX_TICKET = "ticket";
+
     /*user*/
     private static final String PREFIX_USER = "user";
+
+    /*独立访客UV*/
+    private static final String PREFIX_UV = "uv";
+
+    /*日活跃用户DAU*/
+    private static final String PREFIX_DAU = "dau";
 
     /*
         某个实体的赞
@@ -87,4 +84,27 @@ public class RedisKeyUtil {
     public static String getUserKey(int userId){
         return PREFIX_USER + SPLIT + userId;
     }
+
+    /*单日独立访客UV*/
+    public static String getUVKey(String date){
+        return PREFIX_UV + SPLIT + date;
+    }
+
+    /*区间独立访客UV*/
+    public static String getUVKey(String startDate, String endDate){
+        return PREFIX_UV + SPLIT + startDate + SPLIT + endDate;
+    }
+
+    /*单日的日活跃用户DAU*/
+    public static String getDAUKey(String date){
+        return PREFIX_DAU + SPLIT + date;
+    }
+
+    /*区间的日活跃用户DAU*/
+    public static String getDAUKey(String startDate, String endDate){
+        return PREFIX_DAU + SPLIT + startDate + SPLIT + endDate;
+    }
+
+
+
 }

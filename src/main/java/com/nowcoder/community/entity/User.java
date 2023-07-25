@@ -12,6 +12,7 @@ import java.util.Date;
 import java.util.List;
 
 @Data
+/*可以在User对象在序列化时忽略这些字段*/
 @JsonIgnoreProperties({"enabled","accountNonExpired", "accountNonLocked", "credentialsNonExpired", "authorities"})
 public class User implements UserDetails, CommunityConstant {
 

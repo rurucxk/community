@@ -101,7 +101,10 @@ public class SecurityConfig implements CommunityConstant {
                 ).hasAnyAuthority(
                         AUTHORITY_MODERATOR
                 )
-                .antMatchers("/discuss/delete").hasAnyAuthority(AUTHORITY_ADMIN)
+                .antMatchers(
+                        "/discuss/delete",
+                        "/data/**"
+                ).hasAnyAuthority(AUTHORITY_ADMIN)
                 .anyRequest().permitAll()
                 /*关闭csrf防攻击凭证*/
                 .and().csrf().disable();
