@@ -15,6 +15,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 
 
 import java.util.ArrayList;
@@ -35,13 +36,14 @@ public class HomeController implements CommunityConstant {
     private LikeService likeService;
 
     @RequestMapping(path = "/index", method = RequestMethod.GET)
-    public String getIndexPage(Model model,Page page){
+    public String getIndexPage(Model model,Page page,
+                               @RequestParam(name = "orderMode", defaultValue = "0") int orderMode){
 //        方法调用前，SpringMVC会自动实例化 Model 和 Page，并将 Page 注入 Model。
 //        所以，在 Thymeleaf 中可以直接访问 Page 对象中的数据
         page.setRows(discussPostService.findDiscussPostRows(0));
-        page.setPath("/index");
+        page.setPath("/index?orderMode=" + orderMode);
 
-        List<DiscussPost> list = discussPostService.findDiscussPosts(0, page.getOffset(), page.getLimit());
+        List<DiscussPost> list = discussPostService.findDiscussPosts(0, page.getOffset(), page.getLimit(),orderMode);
         List<Map<String,Object>> discussPosts = new ArrayList<>();
         Object loginUSer = model.getAttribute("loginUSer");
         if(loginUSer != null){
@@ -63,8 +65,8 @@ public class HomeController implements CommunityConstant {
             }
         }
 
-
         model.addAttribute("discussPosts", discussPosts);
+        model.addAttribute("orderMode",orderMode);
         return "/index";
     }
 

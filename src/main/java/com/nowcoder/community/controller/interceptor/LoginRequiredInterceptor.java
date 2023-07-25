@@ -13,8 +13,9 @@ import javax.servlet.http.HttpServletResponse;
 import java.lang.reflect.Method;
 
 /**
- * 登录拦截器设置
+ * 登录拦截器设置,现使用Spring Security
  */
+@Deprecated
 @Component
 public class LoginRequiredInterceptor implements HandlerInterceptor {
 

@@ -39,6 +39,37 @@ spring:
       auto-commit-interval: 3000
   elasticsearch:
     uris: localhost:9200
+#  spring task普通线程池
+  task:
+    execution:
+      pool:
+        core-size: 5
+        max-size: 10
+        queue-capacity: 100
+# spring 定时线程池
+    scheduling:
+      pool:
+        size: 5
+#Quartz配置
+  quartz:
+#    任务存储方式
+    job-store-type: jdbc
+#    调度器的名字
+    scheduler-name: communitySchedduler
+    properties:
+      org:
+          quartz:
+            scheduler:
+              instanceId: AUTO
+            jobStore:
+              class: org.springframework.scheduling.quartz.LocalDataSourceJobStore
+              driverDelegateClass: org.quartz.impl.jdbcjobstore.StdJDBCDelegate
+              isClustered: true
+            threadPool:
+              class: org.quartz.simpl.SimpleThreadPool
+              threadCount: 5
+
+
 
 
 
@@ -56,6 +87,11 @@ community:
 
 
 
+logging:
+  level:
+    org:
+      apache:
+        kafka: warn
 
 # logger
 #logging:

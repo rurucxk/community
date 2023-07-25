@@ -12,7 +12,9 @@ import java.util.List;
 @Mapper
 public interface DiscussPostMapper {
 
-    List<DiscussPost> selectDiscussPosts(int userId, int offset, int limit);
+    /*支持按置顶和创建时间排序，和按分数排序来实现按热度排序
+    * orderMode传入0按最新排序，传入1按最热排序*/
+    List<DiscussPost> selectDiscussPosts(int userId, int offset, int limit, int orderMode);
 
     //@Param取别名
     //如果只有一个参数并且在if中使用，必须加别名
@@ -31,4 +33,7 @@ public interface DiscussPostMapper {
 
     /*修改帖子状态0-正常; 1-精华; 2-删除;*/
     int updateStatus(int id, int status);
+
+    /*更改帖子分数*/
+    int updateScore(int id, double score);
 }

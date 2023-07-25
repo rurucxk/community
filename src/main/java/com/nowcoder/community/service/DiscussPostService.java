@@ -21,8 +21,8 @@ public class DiscussPostService {
     /*
         查询所有帖子
      */
-    public List<DiscussPost> findDiscussPosts(int userId, int offset, int limit){
-        return discussPostMapper.selectDiscussPosts(userId, offset, limit);
+    public List<DiscussPost> findDiscussPosts(int userId, int offset, int limit, int orderMode){
+        return discussPostMapper.selectDiscussPosts(userId, offset, limit,orderMode);
     }
 
     //查询帖子数量
@@ -67,5 +67,9 @@ public class DiscussPostService {
         return discussPostMapper.updateStatus(id,status);
     }
 
+    /*更新帖子分数*/
+    public int updateScore(int id, double score){
+        return discussPostMapper.updateScore(id,score);
+    }
 
 }

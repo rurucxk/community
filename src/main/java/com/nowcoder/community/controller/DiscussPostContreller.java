@@ -9,7 +9,9 @@ import com.nowcoder.community.service.UserService;
 import com.nowcoder.community.util.CommunityConstant;
 import com.nowcoder.community.util.CommunityUtil;
 import com.nowcoder.community.util.HostHolder;
+import com.nowcoder.community.util.RedisKeyUtil;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -38,9 +40,11 @@ public class DiscussPostContreller implements CommunityConstant {
     @Autowired
     private EventProducer eventProducer;
 
+    @Autowired
+    private RedisTemplate redisTemplate;
+
     @PostMapping("/add")
     @ResponseBody
-//    @LoginRequired
     public String addDiscussPost(String title, String content){
         User user = hostHolder.getUser();
         if(user == null){
@@ -61,6 +65,10 @@ public class DiscussPostContreller implements CommunityConstant {
                 .setEntityType(ENTITY_TYPE_POST);
         /*kafka的消息生产者生产event*/
         eventProducer.fireEvent(event);
+        
+        /*计算帖子分数，将帖子的id存入redis，等待定时任务来更新帖子分数*/
+        String redisKey = RedisKeyUtil.getPostScoreKey();
+        redisTemplate.opsForSet().add(redisKey,post.getId());
 
 
         //报错的情况会统一处理
@@ -196,6 +204,11 @@ public class DiscussPostContreller implements CommunityConstant {
                 .setEntityId(id)
                 .setEntityType(ENTITY_TYPE_POST);
         eventProducer.fireEvent(event);
+
+        /*计算帖子分数，将帖子的id存入redis，等待定时任务来更新帖子分数*/
+        String redisKey = RedisKeyUtil.getPostScoreKey();
+        redisTemplate.opsForSet().add(redisKey,id);
+
         return CommunityUtil.getJSONString(0);
     }
 

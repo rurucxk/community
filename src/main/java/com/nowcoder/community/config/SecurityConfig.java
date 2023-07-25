@@ -22,6 +22,7 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.context.SecurityContextImpl;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.security.web.SecurityFilterChain;
@@ -64,11 +65,19 @@ public class SecurityConfig implements CommunityConstant {
         http.formLogin()
                 .loginPage("/login")
                 .loginProcessingUrl("/login")
-                .successForwardUrl("/login")
+                .successHandler(new AuthenticationSuccessHandler() {
+                    @Override
+                    public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
+                        SecurityContextHolder.setContext(new SecurityContextImpl(authentication));
+                        /*登录成功后不是重定向到index，也是转发到login，在controller的login中处理登录请求，并保存登录信息*/
+                        request.getRequestDispatcher("/login").forward(request,response);
+                    }
+                })
                 .failureHandler(new AuthenticationFailureHandler() {
                     @Override
                     public void onAuthenticationFailure(HttpServletRequest request, HttpServletResponse response, AuthenticationException exception) throws IOException, ServletException {
                         request.setAttribute("error", exception.getMessage());
+
                         /*转发到登陆页面*/
                         request.getRequestDispatcher("/login").forward(request,response);
                     }

@@ -35,6 +35,9 @@ public class RedisKeyUtil {
     /*日活跃用户DAU*/
     private static final String PREFIX_DAU = "dau";
 
+    /*内容更新的帖子*/
+    private static final String PREFIX_POST= "post";
+
     /*
         某个实体的赞
         like:entity:entityType:entityId -> set(userId)
@@ -105,6 +108,10 @@ public class RedisKeyUtil {
         return PREFIX_DAU + SPLIT + startDate + SPLIT + endDate;
     }
 
+    /*统计帖子分数*/
+    public static String getPostScoreKey(){
+        return PREFIX_POST + SPLIT + "score";
+    }
 
 
 }

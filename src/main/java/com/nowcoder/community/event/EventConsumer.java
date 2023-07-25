@@ -107,7 +107,7 @@ public class EventConsumer implements CommunityConstant {
 
     }
     /*消费删帖事件*/
-    @KafkaListener(topics = {TOPIC_PUBLISH})
+    @KafkaListener(topics = {TOPIC_DELETE})
     public void handleDeleteMessage(ConsumerRecord record){
         /*recode接收相关数据*/
         if(record == null || record.value() == null){
