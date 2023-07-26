@@ -21,8 +21,8 @@ import java.util.Date;
 /**
  * 使用aop来统一处理日志
  */
-@Component
-@Aspect
+//@Component
+//@Aspect
 public class ServiceLogAspect {
 
     private static final Logger logger = LoggerFactory.getLogger(ServiceLogAspect.class);

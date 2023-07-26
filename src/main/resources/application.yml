@@ -87,6 +87,10 @@ community:
 
 logging:
   level:
+    root: warn
+    com:
+      nowcoder:
+        ommunity: warn
     org:
       apache:
         kafka: warn
@@ -108,6 +112,14 @@ qiniu:
     share:
       name: community-share963952993
       url: http://ryczozgrq.hn-bkt.clouddn.com
+#caffeine
+caffeine:
+  posts:
+#    缓存的多少页数据
+    max-size: 15
+#    缓存多少秒就定时淘汰
+    expire-seconds: 180
+
 
 # logger
 #logging:
