@@ -131,7 +131,7 @@ public class QuartzConfing {
         factoryBean.setName("deleteTemporaryFileTrigger");
         factoryBean.setGroup("communityTriggerGroup");
         /*多久执行一次 5分钟*/
-        factoryBean.setRepeatInterval(1000 * 60);
+        factoryBean.setRepeatInterval(1000 * 60 * 5);
         /*Job状态*/
         factoryBean.setJobDataMap(new JobDataMap());
 
