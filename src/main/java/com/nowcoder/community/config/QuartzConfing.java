@@ -1,6 +1,7 @@
 package com.nowcoder.community.config;
 
 import com.nowcoder.community.quartz.AlphaJob;
+import com.nowcoder.community.quartz.DeleteTemporaryFileJob;
 import com.nowcoder.community.quartz.PostScoreRefreshJob;
 import org.quartz.JobDataMap;
 import org.quartz.JobDetail;
@@ -96,6 +97,41 @@ public class QuartzConfing {
         factoryBean.setGroup("communityTriggerGroup");
         /*多久执行一次 5分钟*/
         factoryBean.setRepeatInterval(1000 * 60 * 5);
+        /*Job状态*/
+        factoryBean.setJobDataMap(new JobDataMap());
+
+        return factoryBean;
+    }
+
+    /**
+     *定期删除临时文件任务
+     */
+    @Bean
+    public JobDetailFactoryBean deleteTemporaryFileJobDetail(){
+
+        JobDetailFactoryBean factoryBean = new JobDetailFactoryBean();
+        /*配置的是哪个Job*/
+        factoryBean.setJobClass(DeleteTemporaryFileJob.class);
+        factoryBean.setName("DeleteTemporaryFileJob");
+        factoryBean.setGroup("communityJobGroup");
+        /*任务是否长期保存*/
+        factoryBean.setDurability(true);
+        /*任务是否可以被恢复*/
+        factoryBean.setRequestsRecovery(true);
+
+        return factoryBean;
+    }
+
+    @Bean
+    public SimpleTriggerFactoryBean deleteTemporaryFileTrigger(JobDetail deleteTemporaryFileJobDetail){
+
+        SimpleTriggerFactoryBean factoryBean = new SimpleTriggerFactoryBean();
+        /*是哪个JobDetail的触发器*/
+        factoryBean.setJobDetail(deleteTemporaryFileJobDetail);
+        factoryBean.setName("deleteTemporaryFileTrigger");
+        factoryBean.setGroup("communityTriggerGroup");
+        /*多久执行一次 5分钟*/
+        factoryBean.setRepeatInterval(1000 * 60);
         /*Job状态*/
         factoryBean.setJobDataMap(new JobDataMap());
 

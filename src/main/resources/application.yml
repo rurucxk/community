@@ -85,13 +85,29 @@ community:
     domain: http://localhost:8080
     upload: D:/1/niuke/upload
 
-
-
 logging:
   level:
     org:
       apache:
         kafka: warn
+
+#wkhtmltodpf  or wkhtmltoimage
+wk:
+  image:
+    command: d:/1/wkhtmltopdf/bin/wkhtmltoimage
+    storage: d:/1/data/wk-image
+
+qiniu:
+  key:
+    access: Jk85VXxbyhtumpG-L9l6g12fj1k--OJzDvgOYPhu
+    secret: Y4mdVHP5XJIW1pXwh8oS_EkGthYLoHH1Tc0vu-eY
+  bucket:
+    header:
+      name: community-header963952993
+      url: http://rycylw7mg.hn-bkt.clouddn.com
+    share:
+      name: community-share963952993
+      url: http://ryczozgrq.hn-bkt.clouddn.com
 
 # logger
 #logging:
